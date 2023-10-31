@@ -2,15 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SensibleDevTask
+namespace SensibleDevTask.Services
 {
-    public class PersonService
+    public class FileReader
     {
-        public List<PersonEntity> ReadCsvFile(string filePath)
+        private string _filePath;
+
+        public FileReader(string filePath)
+        {
+            _filePath = filePath;
+        }
+
+        public List<PersonEntity> ReadCsvFile()
         {
             var records = new List<PersonEntity>();
-            
-            using (var reader = new StreamReader(filePath))
+        
+            using (var reader = new StreamReader(_filePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -33,7 +40,7 @@ namespace SensibleDevTask
                     }
                 }
             }
-            
+        
             return records;
         }
     }

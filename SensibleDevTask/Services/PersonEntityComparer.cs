@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SensibleDevTask
+namespace SensibleDevTask.Services
 {
     public class PersonEntityComparer : IEqualityComparer<PersonEntity>
     {

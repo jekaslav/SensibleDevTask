@@ -1,4 +1,5 @@
-﻿using SensibleDevTask.Services;
+﻿using System;
+using SensibleDevTask.Services;
 
 namespace SensibleDevTask
 {
@@ -6,14 +7,20 @@ namespace SensibleDevTask
     {
         static void Main(string[] args)
         {
+            
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Необходимо указать пути");
+                return;
+            }
+            
             var records1 = FileReader.ReadCsvFile(args[0]);
             
             var records2 = FileReader.ReadCsvFile(args[1]);
-
+            
             var addedRecords = FileComparison.GetAddedRecords(records1, records2);
             var deletedRecords = FileComparison.GetDeletedRecords(records1, records2);
             var modifiedRecords = FileComparison.GetModifiedRecords(records1, records2);
-            
             
             ResultPrinter.PrintComparisonResults(addedRecords, deletedRecords, modifiedRecords, records1);
         }

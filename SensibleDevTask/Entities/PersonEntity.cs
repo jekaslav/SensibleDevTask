@@ -1,6 +1,6 @@
 using System;
 
-namespace SensibleDevTask
+namespace SensibleDevTask.Entities
 {
     public class PersonEntity
     {

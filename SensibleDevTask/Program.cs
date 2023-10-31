@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SensibleDevTask
@@ -10,12 +11,18 @@ namespace SensibleDevTask
         {
             var personService = new PersonService();
             
-            const string file1 = @"C:\Users\User\Desktop\Книга1.csv";
+            var file1 = args[0];
             var records1 = personService.ReadCsvFile(file1);
             
-            const string file2 = @"C:\Users\User\Desktop\Книга2.csv";
+            var file2 = args[1];
             var records2 = personService.ReadCsvFile(file2);
-
+            
+            if (!File.Exists(file1) || !File.Exists(file2))
+            {
+                Console.WriteLine("Один или оба файла не существуют");
+                return;
+            }
+            
             // Сравнение двух списков
             var addedRecords = records2.Except(records1, new PersonEntityComparer()).ToList();
             var deletedRecords = records1.Except(records2, new PersonEntityComparer()).ToList();
@@ -46,7 +53,7 @@ namespace SensibleDevTask
             }
         }
 
-        static List<string> GetModifiedFields(PersonEntity originalRecord, PersonEntity modifiedRecord)
+        static IEnumerable<string> GetModifiedFields(PersonEntity originalRecord, PersonEntity modifiedRecord)
         {
             var modifiedFields = new List<string>();
 

@@ -9,7 +9,7 @@ namespace SensibleDevTask
         public List<PersonEntity> ReadCsvFile(string filePath)
         {
             var records = new List<PersonEntity>();
-
+            
             using (var reader = new StreamReader(filePath))
             {
                 while (!reader.EndOfStream)

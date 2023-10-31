@@ -4,43 +4,35 @@ using System.Linq;
 
 namespace SensibleDevTask.Services
 {
-    public class ResultPrinter
+    public static class ResultPrinter
     {
-        private FileComparison _fileComparison;
-        private List<PersonEntity> _records1;
-
-        public ResultPrinter(FileComparison fileComparison, List<PersonEntity> records1)
-        {
-            _fileComparison = fileComparison;
-            _records1 = records1;
-        }
-        
-        public void PrintComparisonResults()
+        public static void PrintComparisonResults(List<PersonEntity> addedRecords, List<PersonEntity> deletedRecords, 
+            List<PersonEntity> modifiedRecords, List<PersonEntity> records1)
         {
             Console.WriteLine("Added records:");
-            foreach (var record in _fileComparison.GetAddedRecords())
+            foreach (var record in addedRecords)
             {
                 Console.WriteLine($"Id: {record.Id}, Имя: {record.Name}, Фамилия: {record.LastName}, " +
-                                  $"Отчество: {record.Surname}, Дата рождения: {record.DateBirth:dd.MM.yyyy}, Номер телефона: {record.PhoneNumber}");
+                                $"Отчество: {record.Surname}, Дата рождения: {record.DateBirth:dd.MM.yyyy}, Номер телефона: {record.PhoneNumber}");
             }
 
             Console.WriteLine("Deleted records:");
-            foreach (var record in _fileComparison.GetDeletedRecords())
+            foreach (var record in deletedRecords)
             {
                 Console.WriteLine($"Id: {record.Id}, Имя: {record.Name}, Фамилия: {record.LastName}, " +
-                                  $"Отчество: {record.Surname}, Дата рождения: {record.DateBirth:dd.MM.yyyy}, Номер телефона: {record.PhoneNumber}");
+                                $"Отчество: {record.Surname}, Дата рождения: {record.DateBirth:dd.MM.yyyy}, Номер телефона: {record.PhoneNumber}");
             }
 
             Console.WriteLine("Modified records:");
-            foreach (var record in _fileComparison.GetModifiedRecords())
+            foreach (var record in modifiedRecords)
             {
-                var originalRecord = _records1.Single(p => p.Id == record.Id);
+                var originalRecord = records1.Single(p => p.Id == record.Id);
                 var modifiedFields = GetModifiedFields(originalRecord, record);
                 Console.WriteLine($"Id: {record.Id}, Измененные поля: {string.Join(", ", modifiedFields)}");
             }
         }
-        
-        private List<string> GetModifiedFields(PersonEntity originalRecord, PersonEntity modifiedRecord)
+
+        private static List<string> GetModifiedFields(PersonEntity originalRecord, PersonEntity modifiedRecord)
         {
             List<string> modifiedFields = new List<string>();
 
